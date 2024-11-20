@@ -12,7 +12,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     final cartItems = Cart.getItems();
-    final totalPrice = cartItems.fold(0.0, (sum, item) => sum + item.price);
+    final totalPrice = cartItems.fold(0.0, (sum, item) => sum + item.pizza.price * item.quantity);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,21 +25,46 @@ class _CartPageState extends State<CartPage> {
               itemCount: cartItems.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(cartItems[index].name),
-                  subtitle: Text('${cartItems[index].price.toStringAsFixed(2)} €'),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        Cart.removeItem(cartItems[index]);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('${cartItems[index].name} supprimé du panier'),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                    },
+                  title: Text(cartItems[index].pizza.name),
+                  subtitle: Text('${cartItems[index].pizza.price.toStringAsFixed(2)} € x ${cartItems[index].quantity}'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: () {
+                          setState(() {
+                            if (cartItems[index].quantity > 1) {
+                              cartItems[index].quantity--;
+                            } else {
+                              Cart.removeItem(cartItems[index].pizza);
+                            }
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            cartItems[index].quantity++;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            Cart.removeItem(cartItems[index].pizza);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${cartItems[index].pizza.name} supprimé du panier'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 );
               },

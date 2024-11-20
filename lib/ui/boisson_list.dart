@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'cart_page.dart'; // Ajoutez cette ligne
+import '../../models/cart.dart'; // Ajoutez cette ligne
+import '../../models/pizza.dart'; // Ajoutez cette ligne
 
 class Boisson {
   final String name;
@@ -94,7 +96,20 @@ class _BoissonListState extends State<BoissonList> {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Cart.addItem(Pizza(
+                    name: boisson.name,
+                    price: boisson.price,
+                    imagePath: boisson.imagePath,
+                    description: '',
+                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${boisson.name} ajouté au panier'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
