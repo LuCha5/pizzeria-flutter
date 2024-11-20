@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../models/pizza.dart';
+import '../../models/cart.dart'; // Ajoutez cette ligne
 
 class PizzaDetail extends StatelessWidget {
   final Pizza pizza;
@@ -49,7 +50,15 @@ class PizzaDetail extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Cart.addItem(pizza);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${pizza.name} ajouté au panier'),
+                      duration: Duration(seconds: 1), // Réduisez la durée ici
+                    ),
+                  );
+                },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

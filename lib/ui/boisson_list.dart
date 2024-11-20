@@ -1,6 +1,7 @@
 // lib/ui/boisson_list.dart
 
 import 'package:flutter/material.dart';
+import 'cart_page.dart'; // Ajoutez cette ligne
 
 class Boisson {
   final String name;
@@ -46,6 +47,17 @@ class _BoissonListState extends State<BoissonList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des Boissons'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: boissons.length,

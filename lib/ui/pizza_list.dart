@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../models/pizza.dart';
 import '../../models/pizza_data.dart';
 import 'pizza_detail.dart'; // Ajoutez cette ligne
+import 'cart_page.dart'; // Ajoutez cette ligne
 
 class PizzaList extends StatefulWidget {
   const PizzaList({super.key});
@@ -20,6 +21,17 @@ class _PizzaListState extends State<PizzaList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des Pizzas'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: pizzas.length,

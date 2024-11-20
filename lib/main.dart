@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'models/menu.dart';
 import 'ui/pizza_list.dart';
 import 'ui/boisson_list.dart'; // Ajoutez cette ligne
+import 'ui/cart_page.dart'; // Ajoutez cette ligne
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Notre pizzeria'),
     );
   }
@@ -39,6 +41,17 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: menuItems.length,
